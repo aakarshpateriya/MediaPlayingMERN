@@ -19,4 +19,4 @@ app.use(cookieParser());
 
 
 
-export { app };
+export default app ;
