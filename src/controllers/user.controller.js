@@ -18,19 +18,19 @@ const registerUser = asyncHandler( async (req, res) => {
     // return responce
 
 
-    const {fullName, email, username, password }  = req.body
+    const {fullname, email, username, password }  = req.body
     console.log("Email : ", email);
 
     if( 
-        [fullName, email, username, password].some((field) =>
+        [fullname, email, username, password].some((field) =>
             field?.trim() === "")
     ){
         throw new ApiError(400, "All fields are rewuired")
     }
     
 
-    const existedUser = User.findOne({ 
-        $or : [{username}, {emial}] // username or email
+    const existedUser = await User.findOne({ 
+        $or : [{username}, {email}] // username or email
     })
 
     if (existedUser){
@@ -56,7 +56,7 @@ if(!avatar){
 }
 
 User.create({
-    fullName,
+    fullname,
     avatar: avatar.url,
     coverImage : coverImage?.url || "",  // if coverImage is not provided then we are setting it to empty string
     email,
@@ -64,7 +64,7 @@ User.create({
     username: username.toLowerCase()
 })
 
-    const createdUser = User.findById(user.id).select(
+    const createdUser = User.findById(User.id).select(
         "-password -refreshToken"  // we are removing password and refreshToken from the response
     )
 
@@ -77,10 +77,11 @@ User.create({
             200,
             createdUser,
             "User registered successfully"
-    )
+    ))
+
+    // just refer the 10 : 00 for postmanuser/register {{server part}}
+
+})  
 
 
-})
-
-
-export {registerUser}
+export {registerUser} 
