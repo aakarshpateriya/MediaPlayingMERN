@@ -61,7 +61,7 @@ const userSchema = new Schema(
 
 }, { timestamps: true});
 
-userSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {  // this is a middleware function, it will run before the save function
 
     if(!this.isModified("password")) return next();
 
